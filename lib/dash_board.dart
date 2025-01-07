@@ -1,5 +1,6 @@
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application/color.dart';
 import 'package:flutter_application/constants.dart';
 import 'package:flutter_application/dashboard_controller.dart';
@@ -18,6 +19,8 @@ class DashBoard extends StatefulWidget {
 class _DashBoardState extends State<DashBoard> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   List<Map<String, dynamic>> items = [];
+  Map<String, dynamic> itemsBeforeAdd = {};
+
   List<String> place = [];
   List<String> process = [];
 
@@ -51,16 +54,7 @@ class _DashBoardState extends State<DashBoard> {
       key: scaffoldKey,
       appBar: AppBar(
           automaticallyImplyLeading: false,
-          // flexibleSpace: ClipRect(
-          //   child: BackdropFilter(
-          //     filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          //     child: Container(
-          //       color: Colors.transparent,
-          //     ),
-          //   ),
-          // ),
           iconTheme: IconThemeData(color: Colors.white),
-          // backgroundColor: Colors.deepPurple.withAlpha(200),
           backgroundColor: ColorPage.appBarColor,
           title: Obx(
             () => Text(
@@ -92,12 +86,14 @@ class _DashBoardState extends State<DashBoard> {
       floatingActionButton: Obx(
         () => controller.selectedMaster.value != ''
             ? FloatingActionButton(
-              backgroundColor: ColorPage.appBarColor,
+                backgroundColor: ColorPage.appBarColor,
                 onPressed: () {
                   _showInputDialog(context);
                 },
-                child: Icon(Icons.add_rounded,color: Colors.white,)
-              )
+                child: Icon(
+                  Icons.add_rounded,
+                  color: Colors.white,
+                ))
             : SizedBox(),
       ),
       drawer: LeftDrawer(),
@@ -110,7 +106,7 @@ class _DashBoardState extends State<DashBoard> {
                   child: ListTile(
                     tileColor: index % 2 == 0
                         ? Colors.brown.shade50
-                        : Colors.brown.shade100,
+                        : Colors.orangeAccent.shade100,
                     visualDensity: VisualDensity(vertical: 0.01),
                     dense: true,
                     onTap: () {
@@ -118,7 +114,7 @@ class _DashBoardState extends State<DashBoard> {
                     },
                     subtitle: Text(
                       "${items[index]['quantity'].toString()} Units",
-                      style: TextStyle(color: Colors.orange),
+                      style: TextStyle(color: Colors.blueGrey),
                     ),
                     title: Text(items[index]['name']),
                     trailing: Icon(
@@ -136,9 +132,9 @@ class _DashBoardState extends State<DashBoard> {
                     return Material(
                       child: ListTile(
                         tileColor: index % 2 == 0
-                            ? Colors.brown.shade50
-                            : Colors.brown.shade100,
-                        visualDensity: VisualDensity(vertical: 0.01),
+                        ? Colors.brown.shade50
+                        : Colors.orangeAccent.shade100,
+                        visualDensity: VisualDensity(vertical: 0.01),      
                         dense: true,
                         onTap: () {
                           _showEditDialog(context, index);
@@ -161,7 +157,7 @@ class _DashBoardState extends State<DashBoard> {
                           child: ListTile(
                             tileColor: index % 2 == 0
                                 ? Colors.brown.shade50
-                                : Colors.brown.shade100,
+                        : Colors.orangeAccent.shade100,
                             visualDensity: VisualDensity(vertical: 0.01),
                             dense: true,
                             onTap: () {
@@ -256,7 +252,7 @@ class _DashBoardState extends State<DashBoard> {
                     Navigator.of(context).pop(); // Close the dialog
                   } else {
                     Navigator.of(context).pop(); // Close the dialog
-                    
+
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Please fill in all fields.')),
                     );
@@ -273,10 +269,9 @@ class _DashBoardState extends State<DashBoard> {
                               })
                             : null;
                     Navigator.of(context).pop(); // Close the dialog
-
-                  }else {
+                  } else {
                     Navigator.of(context).pop(); // Close the dialog
-                    
+
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Please fill in all fields.')),
                     );
@@ -297,7 +292,7 @@ class _DashBoardState extends State<DashBoard> {
 
   void _showInputDialog(BuildContext context) {
     TextEditingController productNameController = TextEditingController();
-    TextEditingController quantityController = TextEditingController();
+    // TextEditingController quantityController = TextEditingController();
 
     showDialog(
       context: context,
@@ -316,7 +311,7 @@ class _DashBoardState extends State<DashBoard> {
                 children: [
                   Expanded(
                     child: Text(
-                      'Provide the necessary details to add a new item to the list.',
+                      'Provide the item details to add a new item.',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
@@ -338,48 +333,21 @@ class _DashBoardState extends State<DashBoard> {
                     child: TextField(
                       controller: productNameController,
                       decoration: InputDecoration(
-                          labelText: 'Item',
-                          labelStyle: TextStyle(color: Colors.grey),
-                          border: UnderlineInputBorder()),
+                        labelText: 'Item',
+                        labelStyle: TextStyle(color: Colors.grey),
+                        border: UnderlineInputBorder(),
+                      ),
                     ),
                   ),
                 ],
               ),
-              controller.selectedMaster.value == 'Item'
-                  ? Column(
-                      children: [
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'Unit: ',
-                              style: FontFamily.styleb.copyWith(fontSize: 14),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: TextField(
-                                  controller: quantityController,
-                                  decoration: InputDecoration(
-                                    labelText: 'Unit',
-                                    labelStyle: TextStyle(color: Colors.grey),
-                                    border: UnderlineInputBorder(),
-                                  ),
-                                  keyboardType: TextInputType.number),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )
-                  : SizedBox(),
             ],
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
+                itemsBeforeAdd.clear();
+
                 Get.back();
               },
               child: Text(
@@ -393,21 +361,25 @@ class _DashBoardState extends State<DashBoard> {
                   backgroundColor: ColorPage.appBarColor),
               onPressed: () {
                 String productName = productNameController.text;
-                String quantityText = quantityController.text;
                 if (controller.selectedMaster.value == 'Item') {
-                  if (productName.isNotEmpty && quantityText.isNotEmpty) {
-                    setState(() {
-                      items.add({
-                        'name': productName,
-                        'quantity': quantityText,
-                      });
-                    });
-
+                  if (productName.isNotEmpty) {
+                    itemsBeforeAdd['name'] = productName;
                     productNameController.clear();
-                    quantityController.clear();
+                    // quantityController.clear();
+                    Get.back();
+
+                    _showUnitInputDialog(context);
                   } else {
+                    Get.back();
+
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Please fill in all fields.')),
+                      SnackBar(
+                          content: Text(
+                        'Please fill in all fields.',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.deepOrange),
+                      )),
                     );
                   }
                 } else {
@@ -421,9 +393,127 @@ class _DashBoardState extends State<DashBoard> {
                                 process.add(productName);
                               })
                             : null;
+                    Get.back();
+                  } else {
+                    Get.back();
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text(
+                        'Please fill in all fields.',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.deepOrange),
+                      )),
+                    );
                   }
                 }
+              },
+              child: Text(
+                'Add',
+                style: FontFamily.style
+                    .copyWith(fontSize: 14, color: Colors.white70),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
+  void _showUnitInputDialog(BuildContext context) {
+    TextEditingController quantityController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Add ${controller.selectedMaster.value}'),
+          titleTextStyle: FontFamily.style
+              .copyWith(fontSize: 22, color: ColorPage.appBarColor),
+          titlePadding: EdgeInsets.only(top: 20, left: 24),
+          contentPadding:
+              EdgeInsets.only(top: 5, left: 24, right: 24, bottom: 24),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Provide the unit details to add a new item.',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    'Unit: ',
+                    style: FontFamily.styleb.copyWith(fontSize: 14),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: quantityController,
+                      keyboardType: TextInputType
+                          .number, // Set the keyboard type to number
+                      inputFormatters: [
+                        FilteringTextInputFormatter
+                            .digitsOnly, // Allow only digits
+                      ],
+                      decoration: InputDecoration(
+                          labelText: 'Unit',
+                          labelStyle: TextStyle(color: Colors.grey),
+                          border: UnderlineInputBorder()),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                itemsBeforeAdd.clear();
+
+                Get.back();
+              },
+              child: Text(
+                'Cancel',
+                style: FontFamily.styleb
+                    .copyWith(color: Colors.deepOrange, fontSize: 15),
+              ),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorPage.appBarColor),
+              onPressed: () {
+                // String productName = quantityController.text;
+                String quantityText = quantityController.text;
+                // if (controller.selectedMaster.value == 'Item') {
+                if (quantityText.isNotEmpty) {
+                  itemsBeforeAdd['quantity'] = quantityText;
+
+                  setState(() {
+                    items.add({
+                      'name': itemsBeforeAdd['name'],
+                      'quantity': itemsBeforeAdd['quantity']
+                    });
+                  });
+                  itemsBeforeAdd.clear();
+                  quantityController.clear();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Please fill in all fields.')),
+                  );
+                }
                 Get.back();
               },
               child: Text(

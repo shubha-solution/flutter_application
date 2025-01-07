@@ -43,6 +43,9 @@ dependencies:
   auto_size_text: ^3.0.0
   package_info_plus: ^8.1.1
   art_sweetalert: ^0.0.5
+  # flutter_launcher_icons: ^0.14.2
+  rename_app: ^1.6.1
+  flutter_launcher_icons: ^0.14.2
 
 
 
@@ -54,11 +57,20 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/srf_jpg_padding.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/icons/srf_jpg_padding.png"
+
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
+  # rules and activating additional ones.  
   flutter_lints: ^5.0.0
 
 # For information on the generic Dart part of this file, see the

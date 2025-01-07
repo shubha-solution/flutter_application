@@ -14,24 +14,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-
-       theme: ThemeData(
+      theme: ThemeData(
         scaffoldBackgroundColor: Color.fromARGB(255, 234, 237, 248),
         fontFamily: 'AmazonEmber', 
-        textTheme:
-        //  !Platform.isAndroid
-        //     ? GoogleFonts.outfitTextTheme(
-        //         TextTheme(
-        //           bodyLarge: TextStyle(
-        //               fontSize: 12), // Default font size for body text
-        //           bodyMedium: TextStyle(fontSize: 12), // Secondary body text
-        //           displayLarge: TextStyle(fontSize: 18), // Larger headlines
-        //           displayMedium: TextStyle(fontSize: 16),
-        //           titleMedium: TextStyle(fontSize: 14), // Subtitles
-        //         ),
-        //       )
-        //     : 
+        textTheme: 
             TextTheme(
                 bodyLarge: TextStyle(fontSize: 12),
                 bodyMedium: TextStyle(fontSize: 10),
@@ -47,9 +33,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: Mobilelogin(),
+      home: Mobilelogin(), 
     );
   }
-}
-
-
+} 
